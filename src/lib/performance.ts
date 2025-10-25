@@ -1,5 +1,16 @@
 // Performance optimization utilities
 
+// Type definitions for performance monitoring
+interface PerformanceEventTiming extends PerformanceEntry {
+  processingStart: number;
+  processingEnd: number;
+}
+
+interface LayoutShift extends PerformanceEntry {
+  value: number;
+  hadRecentInput: boolean;
+}
+
 // Preload critical resources
 export const preloadCriticalResources = () => {
   if (typeof window !== 'undefined') {
@@ -86,8 +97,8 @@ export const addResourceHints = () => {
 };
 
 // Lazy load non-critical components
-export const lazyLoadComponent = (importFn: () => Promise<any>) => {
-  const React = require('react');
+export const lazyLoadComponent = async (importFn: () => Promise<{ default: React.ComponentType<unknown> }>) => {
+  const React = await import('react');
   return React.lazy(importFn);
 };
 
@@ -126,10 +137,12 @@ export const initPerformanceMonitoring = () => {
           console.log('LCP:', entry.startTime);
         }
         if (entry.entryType === 'first-input') {
-          console.log('FID:', (entry as any).processingStart - entry.startTime);
+          const fidEntry = entry as PerformanceEventTiming;
+          console.log('FID:', fidEntry.processingStart - fidEntry.startTime);
         }
         if (entry.entryType === 'layout-shift') {
-          console.log('CLS:', (entry as any).value);
+          const clsEntry = entry as LayoutShift;
+          console.log('CLS:', clsEntry.value);
         }
       }
     });

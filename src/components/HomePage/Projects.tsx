@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import Link from "next/link";
 import React, { useEffect, memo, useMemo, useCallback } from "react";
 
 const Projects: React.FC = memo(() => {
