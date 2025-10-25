@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Urbanist } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import PerformanceOptimizer from "@/components/PerformanceOptimizer";
 const urbanistSans = Urbanist({
   variable: "--font-urbanist-sans",
   subsets: ["latin"],
@@ -24,9 +25,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://github.com" />
+        <link rel="dns-prefetch" href="https://www.linkedin.com" />
+      </head>
       <body
         className={`${urbanistSans.variable} ${urbanistMono.variable} antialiased`}
       >
+        <PerformanceOptimizer />
         <Navbar />
         {children}
       </body>

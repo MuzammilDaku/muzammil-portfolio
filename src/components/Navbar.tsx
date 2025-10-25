@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, memo, useCallback } from "react";
 import Link from "next/link";
 import { Menu, X, Github, Linkedin, Mail } from "lucide-react";
 
-export default function Navbar() {
+const Navbar = memo(() => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
   const contactRef = useRef<HTMLDivElement>(null);
@@ -25,18 +25,20 @@ export default function Navbar() {
     };
   }, []);
 
-  const handleSkillsClick = () => {
+  const handleSkillsClick = useCallback(() => {
     document.getElementById("skills")?.scrollIntoView({ behavior: "smooth" });
     setMenuOpen(false);
-  };
-  const handleProjectClick = () => {
+  }, []);
+  
+  const handleProjectClick = useCallback(() => {
     document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
     setMenuOpen(false);
-  };
-  const handleAboutClick = () => {
+  }, []);
+  
+  const handleAboutClick = useCallback(() => {
     document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
     setMenuOpen(false);
-  };
+  }, []);
 
   return (
     <nav className="container mx-auto pt-4 flex items-center justify-between px-4 relative">
@@ -166,4 +168,8 @@ export default function Navbar() {
       )}
     </nav>
   );
-}
+});
+
+Navbar.displayName = 'Navbar';
+
+export default Navbar;

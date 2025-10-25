@@ -1,15 +1,15 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { useEffect, memo, useMemo, useCallback } from "react";
 
-const Projects: React.FC = () => {
+const Projects: React.FC = memo(() => {
   const [mounted, setMounted] = React.useState(false);
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const projects = [
+  const projects = useMemo(() => [
     {
       name: "Deal Finder App",
       link: "https://buzzcompare.com",
@@ -49,7 +49,11 @@ const Projects: React.FC = () => {
         description:"Developed a contract and sign editor using QuillJs In ReactJs.",
         image:"/revmap.png"
     }
-  ];
+  ], []);
+
+  const handleProjectClick = useCallback((link: string) => {
+    window.open(link, '_blank', 'noopener,noreferrer');
+  }, []);
 
   return (
     <section
@@ -80,7 +84,12 @@ const Projects: React.FC = () => {
                 alt={project.name}
                 height={300}
                 width={400}
+                priority={false}
+                loading="lazy"
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                 className="w-full h-52 object-cover group-hover:scale-110 transition-transform duration-500"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>
 
@@ -96,10 +105,8 @@ const Projects: React.FC = () => {
               </div>
 
               {/* Button */}
-              <Link
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={() => handleProjectClick(project.link)}
                 className="mt-4 inline-block text-center px-5 py-2.5 rounded-xl text-sm font-semibold 
              bg-gradient-to-r from-[#608AF5] via-[#6366f1] to-[#608AF5] text-white 
              shadow-md hover:shadow-lg hover:scale-105 
@@ -107,13 +114,15 @@ const Projects: React.FC = () => {
              transition-all duration-300 ease-out"
               >
                 View Project
-              </Link>
+              </button>
             </div>
           </div>
         ))}
       </div>
     </section>
   );
-};
+});
+
+Projects.displayName = 'Projects';
 
 export default Projects;
