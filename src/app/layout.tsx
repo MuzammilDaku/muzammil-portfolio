@@ -30,6 +30,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://github.com" />
         <link rel="dns-prefetch" href="https://www.linkedin.com" />
+        <meta name="google-site-verification" content="4NbRY0bYXiGZ572zswDNiZdTwwreySPC6n-bwGvXWH8" />
       </head>
       <body
         className={`${urbanistSans.variable} ${urbanistMono.variable} antialiased`}
